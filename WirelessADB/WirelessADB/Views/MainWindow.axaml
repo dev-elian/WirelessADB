@@ -14,7 +14,7 @@
 	</Window.DataContext>
 	<StackPanel Margin="10">
 		<Button Content="Search platform-tools"
-                Command="{Binding BrowseCommand}"
+				Click="Button_Click"
                 Margin="0,0,0,10"/>
 		<TextBlock Text="{Binding PlatformToolsPath}" 
 					TextWrapping="Wrap"
@@ -27,11 +27,11 @@
 					 Text="{Binding Port}"
 					 Margin="0,0,0,10"/>
 			<Button Content="Connect" Foreground="White"
-					Command="{Binding ConnectCommand}"
+					Click="Button_Click_1"
 					IsVisible="{Binding IsNotConnected}"
 					Margin="0,0,0,10"/>
 			<Button Content="Disconnect" Foreground="White"
-					Command="{Binding DisconnectCommand}"
+					Click="Button_Click_2"
 					IsVisible="{Binding IsConnected}"
 					Margin="0,0,0,10"/>
 		</StackPanel>
@@ -49,8 +49,8 @@
 						<DataTemplate>
 							<TextBlock Text="{Binding}" Margin="0,5"
 									   FontSize="12" TextWrapping="Wrap"
-									   FontWeight="Bold"
-									   Foreground="Green" />
+									   FontWeight="SemiBold"
+									   Foreground="#0f0" />
 						</DataTemplate>
 					</ItemsControl.ItemTemplate>
 				</ItemsControl>

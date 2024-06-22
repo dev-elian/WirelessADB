@@ -9,6 +9,7 @@ namespace WirelessADB.Views;
 
 public partial class MainWindow : Window
 {
+    MainViewModel vm;
     public MainWindow()
     {
         InitializeComponent();
@@ -17,24 +18,19 @@ public partial class MainWindow : Window
     protected override void OnLoaded(RoutedEventArgs e)
     {
         base.OnLoaded(e);
-        DataContext = new MainViewModel
-        {
-            Window = this
-        };
+        vm = DataContext as MainViewModel;
+        vm.Window = this;
     }
 
     protected override void OnClosing(WindowClosingEventArgs e)
     {
-        (DataContext as MainViewModel).SaveSettings();
+        vm.SaveSettings();
         base.OnClosing(e);
     }
 
     private void OpenUrl_Click(object sender, RoutedEventArgs e)
     {
-        // URL a la que se quiere navegar
         var url = "https://www.youtube.com/@GeekHack-sy4qv";
-
-        // Abrir la URL en el navegador predeterminado
         Process.Start(new ProcessStartInfo
         {
             FileName = url,
@@ -45,10 +41,7 @@ public partial class MainWindow : Window
 
     private void OpenUrl2_Click(object sender, RoutedEventArgs e)
     {
-        // URL a la que se quiere navegar
         var url = "https://github.com/dev-elian/WirelessADB";
-
-        // Abrir la URL en el navegador predeterminado
         Process.Start(new ProcessStartInfo
         {
             FileName = url,
@@ -58,14 +51,28 @@ public partial class MainWindow : Window
 
     private void OpenUrl3_Click(object sender, RoutedEventArgs e)
     {
-        // URL a la que se quiere navegar
         var url = "https://www.youtube.com/@GeekHackENG-dx1gr";
-
-        // Abrir la URL en el navegador predeterminado
         Process.Start(new ProcessStartInfo
         {
             FileName = url,
             UseShellExecute = true
         });
+    }
+
+
+    //Commands should not be here, It seems that binding does not work in self-maintained applications? 
+    private void Button_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    {
+        vm.BrowseCommand.Execute(null);
+    }
+
+    private void Button_Click_1(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    {
+        vm.ConnectCommand.Execute(null);
+    }
+
+    private void Button_Click_2(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    {
+        vm.DisconnectCommand.Execute(null);
     }
 }
