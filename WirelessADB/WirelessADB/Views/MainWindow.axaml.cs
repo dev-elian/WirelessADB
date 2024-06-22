@@ -32,7 +32,7 @@ public partial class MainWindow : Window
     private void OpenUrl_Click(object sender, RoutedEventArgs e)
     {
         // URL a la que se quiere navegar
-        var url = "https://www.youtube.com/channel/UCWhJjCN3ICLXmiOWleqymEg";
+        var url = "https://www.youtube.com/@GeekHack-sy4qv";
 
         // Abrir la URL en el navegador predeterminado
         Process.Start(new ProcessStartInfo
@@ -42,10 +42,24 @@ public partial class MainWindow : Window
         });
     }
 
+
     private void OpenUrl2_Click(object sender, RoutedEventArgs e)
     {
         // URL a la que se quiere navegar
-        var url = "https://www.example.com";
+        var url = "https://github.com/dev-elian/WirelessADB";
+
+        // Abrir la URL en el navegador predeterminado
+        Process.Start(new ProcessStartInfo
+        {
+            FileName = url,
+            UseShellExecute = true
+        });
+    }
+
+    private void OpenUrl3_Click(object sender, RoutedEventArgs e)
+    {
+        // URL a la que se quiere navegar
+        var url = "https://www.youtube.com/@GeekHackENG-dx1gr";
 
         // Abrir la URL en el navegador predeterminado
         Process.Start(new ProcessStartInfo

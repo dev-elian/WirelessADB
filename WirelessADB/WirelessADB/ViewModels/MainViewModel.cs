@@ -32,20 +32,13 @@ public partial class MainViewModel : ViewModelBase
 
     public ObservableCollection<string> CommandsExecuted { get; } = new ObservableCollection<string>();
 
-    public ICommand BrowseCommand { get; }
-    public ICommand ConnectCommand { get; }
-    public ICommand DisconnectCommand { get; }
-
     public MainViewModel()
     {
-        BrowseCommand = new AsyncRelayCommand(BrowsePlatformTools);
-        ConnectCommand = new AsyncRelayCommand(Connect);
-        DisconnectCommand = new AsyncRelayCommand(Disconnect);
-
         LoadSettings();
     }
 
-    private async Task BrowsePlatformTools()
+    [RelayCommand]
+    private async Task Browse()
     {
         var dialog = new OpenFolderDialog();
         var result = await dialog.ShowAsync(Window);
@@ -57,6 +50,7 @@ public partial class MainViewModel : ViewModelBase
         }
     }
 
+    [RelayCommand]
     private async Task Connect()
     {
         SaveSettings();
@@ -77,6 +71,7 @@ public partial class MainViewModel : ViewModelBase
         CheckConnectionStatus();
     }
 
+    [RelayCommand]
     private async Task Disconnect()
     {
         var adbPath = Path.Combine(PlatformToolsPath, "adb");

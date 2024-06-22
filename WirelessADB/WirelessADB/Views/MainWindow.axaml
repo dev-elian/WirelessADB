@@ -3,23 +3,22 @@
         xmlns:vm="clr-namespace:WirelessADB.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="700" d:DesignHeight="350"
-		Width="700" Height="350"
+        mc:Ignorable="d" d:DesignWidth="450" d:DesignHeight="450"
+		Width="450" Height="450"
+        Icon="/Assets/icon.ico"
         x:Class="WirelessADB.Views.MainWindow"
-        Icon="/Assets/avalonia-logo.ico" Background="#121212"
+		Background="#121212"
         Title="WirelessADB">
 	<Window.DataContext>
 		<vm:MainViewModel />
 	</Window.DataContext>
 	<StackPanel Margin="10">
-		<StackPanel Orientation="Horizontal"
-                    Spacing="10"
-                    VerticalAlignment="Center">
-			<Button Content="Search platform-tools"
-                    Command="{Binding BrowseCommand}"
-                    Margin="0,0,0,10"/>
-			<TextBlock Text="{Binding PlatformToolsPath}" VerticalAlignment="Center"/>
-		</StackPanel>
+		<Button Content="Search platform-tools"
+                Command="{Binding BrowseCommand}"
+                Margin="0,0,0,10"/>
+		<TextBlock Text="{Binding PlatformToolsPath}" 
+					TextWrapping="Wrap"
+					VerticalAlignment="Center"/>
 		<StackPanel Orientation="Horizontal" Spacing="10">
 			<TextBox Watermark="IP Address"
 					 Text="{Binding Ip}"
@@ -36,7 +35,9 @@
 					IsVisible="{Binding IsConnected}"
 					Margin="0,0,0,10"/>
 		</StackPanel>
-		<TextBlock Text="{Binding ResultText}" Margin="0,0,0,10"/>
+		<TextBlock Text="{Binding ResultText}" 
+				   TextWrapping="Wrap"
+				   Margin="0,0,0,10"/>
 		<Grid Height="200">
 			<Rectangle Fill="#000022" Stroke="White" StrokeThickness="3"
 					   Height="200"
@@ -46,7 +47,8 @@
 							  Margin="0,15" Padding="10">
 					<ItemsControl.ItemTemplate>
 						<DataTemplate>
-							<TextBlock Text="{Binding}" 
+							<TextBlock Text="{Binding}" Margin="0,5"
+									   FontSize="12" TextWrapping="Wrap"
 									   FontWeight="Bold"
 									   Foreground="Green" />
 						</DataTemplate>
@@ -57,9 +59,20 @@
 		<StackPanel Margin="10" Spacing="10" 
 					HorizontalAlignment="Center"
 					Orientation="Horizontal">
-			<Button Content="YouTube" Background="Red"
-					Click="OpenUrl_Click" Margin="0,0,0,10"/>
-			<Button Content="GitHub" Click="OpenUrl2_Click" Margin="0,0,0,10"/>
+			<StackPanel>
+				<Button Content="YouTube Geek Hack" Background="Red"
+						HorizontalAlignment="Center" Width="190"
+						HorizontalContentAlignment="Center"
+						Click="OpenUrl_Click" Margin="0,0,0,10"/>
+				<Button Content="YouTube Geek Hack ENG" Background="Red"
+						HorizontalAlignment="Center" Width="190"
+						HorizontalContentAlignment="Center"
+						Click="OpenUrl2_Click" Margin="0,0,0,10"/>
+			</StackPanel>
+			<Button Content="GitHub Project" Click="OpenUrl2_Click" 
+					HorizontalAlignment="Center" Width="190"
+					HorizontalContentAlignment="Center"
+					Margin="0,0,0,10"/>
 		</StackPanel>
 	</StackPanel>
 </Window>
