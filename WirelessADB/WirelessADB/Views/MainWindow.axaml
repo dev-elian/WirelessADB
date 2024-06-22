@@ -3,8 +3,8 @@
         xmlns:vm="clr-namespace:WirelessADB.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="450" d:DesignHeight="450"
-		Width="450" Height="450"
+        mc:Ignorable="d" d:DesignWidth="450" d:DesignHeight="500"
+		Width="450" Height="500"
         Icon="/Assets/icon.ico"
         x:Class="WirelessADB.Views.MainWindow"
 		Background="#121212"
@@ -13,64 +13,82 @@
 		<vm:MainViewModel />
 	</Window.DataContext>
 	<StackPanel Margin="10">
-		<Button Content="Search platform-tools"
-				Click="Button_Click"
-                Margin="0,0,0,10"/>
-		<TextBlock Text="{Binding PlatformToolsPath}" 
-					TextWrapping="Wrap"
-					VerticalAlignment="Center"/>
-		<StackPanel Orientation="Horizontal" Spacing="10">
-			<TextBox Watermark="IP Address"
-					 Text="{Binding Ip}"
-					 Margin="0,0,0,10"/>
-			<TextBox Watermark="Port"
-					 Text="{Binding Port}"
-					 Margin="0,0,0,10"/>
-			<Button Content="Connect" Foreground="White"
-					Click="Button_Click_1"
-					IsVisible="{Binding IsNotConnected}"
-					Margin="0,0,0,10"/>
-			<Button Content="Disconnect" Foreground="White"
-					Click="Button_Click_2"
-					IsVisible="{Binding IsConnected}"
-					Margin="0,0,0,10"/>
-		</StackPanel>
-		<TextBlock Text="{Binding ResultText}" 
-				   TextWrapping="Wrap"
-				   Margin="0,0,0,10"/>
-		<Grid Height="200">
+		<Grid>
 			<Rectangle Fill="#000022" Stroke="White" StrokeThickness="3"
-					   Height="200"
-					   RadiusX="10" RadiusY="10"/>
-			<ScrollViewer Margin="10"  Height="180" VerticalScrollBarVisibility="Visible">
-				<ItemsControl ItemsSource="{Binding CommandsExecuted}" 
-							  Margin="0,15" Padding="10">
-					<ItemsControl.ItemTemplate>
-						<DataTemplate>
-							<TextBlock Text="{Binding}" Margin="0,5"
-									   FontSize="12" TextWrapping="Wrap"
-									   FontWeight="SemiBold"
-									   Foreground="#0f0" />
-						</DataTemplate>
-					</ItemsControl.ItemTemplate>
-				</ItemsControl>
-			</ScrollViewer>
+					  RadiusX="10" RadiusY="10"/>
+			<StackPanel Margin="10">
+				<Button Content="Buscar platform-tools"
+						Click="Button_Click"
+						Margin="0,0,0,10"/>
+				<TextBlock Text="{Binding PlatformToolsPath}" 
+							TextWrapping="Wrap"
+							VerticalAlignment="Center"/>
+			</StackPanel>
+		</Grid>
+		<Grid Margin="0,10">
+			<Rectangle Fill="#000022" Stroke="White" StrokeThickness="3"
+						RadiusX="10" RadiusY="10"/>
+			<StackPanel>
+				<StackPanel Orientation="Horizontal">
+					<TextBox Watermark="IP" 
+							 Text="{Binding Ip}"
+							 Margin="10"/>
+					<TextBox Watermark="Puerto"
+							 Text="{Binding Port}"
+							 Margin="10"/>
+					<TextBox Watermark="Código"
+							 Text="{Binding PairCode}"
+							 Margin="10"/>
+					<Button Content="Emparejar" Foreground="White"
+							Click="Button_Click_3"
+							Margin="10"/>
+				</StackPanel>
+				<StackPanel Orientation="Horizontal">
+					<TextBox Watermark="IP"
+							 Text="{Binding Ip}"
+							 Margin="10"/>
+					<TextBox Watermark="Puerto"
+							 Text="{Binding Port}"
+							 Margin="10"/>
+					<Button Content="Conectar" Foreground="White"
+							Click="Button_Click_1"
+							IsVisible="{Binding IsNotConnected}"
+							Margin="10"/>
+					<Button Content="Desconectar" Foreground="White"
+							Click="Button_Click_2"
+							IsVisible="{Binding IsConnected}"
+							Margin="10"/>
+				</StackPanel>
+				<ScrollViewer
+					x:Name="svCommands"
+					Margin="10" Height="200" VerticalScrollBarVisibility="Visible">
+					<ItemsControl ItemsSource="{Binding CommandsHistory}"
+								  SizeChanged="ItemsControl_SizeChanged"
+								  Margin="0,15" Padding="10">
+						<ItemsControl.ItemTemplate>
+							<DataTemplate>
+								<TextBlock Text="{Binding .}" Margin="0,5"
+										   FontSize="11" TextWrapping="Wrap"
+										   FontWeight="Normal"
+										   Foreground="#0f0" />
+							</DataTemplate>
+						</ItemsControl.ItemTemplate>
+					</ItemsControl>
+				</ScrollViewer>
+			</StackPanel>
 		</Grid>
 		<StackPanel Margin="10" Spacing="10" 
 					HorizontalAlignment="Center"
 					Orientation="Horizontal">
-			<StackPanel>
-				<Button Content="YouTube Geek Hack" Background="Red"
-						HorizontalAlignment="Center" Width="190"
-						HorizontalContentAlignment="Center"
-						Click="OpenUrl_Click" Margin="0,0,0,10"/>
-				<Button Content="YouTube Geek Hack ENG" Background="Red"
-						HorizontalAlignment="Center" Width="190"
-						HorizontalContentAlignment="Center"
-						Click="OpenUrl2_Click" Margin="0,0,0,10"/>
-			</StackPanel>
-			<Button Content="GitHub Project" Click="OpenUrl2_Click" 
+			<Button Content="YouTube Geek Hack" Background="Red"
 					HorizontalAlignment="Center" Width="190"
+					HorizontalContentAlignment="Center"
+					FontWeight="Bold"
+					Click="OpenUrl_Click" Margin="0,0,0,10"/>
+			<Button Content="Proyecto GitHub" Click="OpenUrl2_Click" 
+					HorizontalAlignment="Center" Width="190"
+					Background="Gray" Foreground="Black"
+					FontWeight="Bold"
 					HorizontalContentAlignment="Center"
 					Margin="0,0,0,10"/>
 		</StackPanel>

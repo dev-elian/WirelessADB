@@ -1,15 +1,21 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 <PropertyGroup>
 	<OutputType>WinExe</OutputType>
-	<TargetFramework>net7.0</TargetFramework>
+	<TargetFramework>net8.0</TargetFramework>
 	<RuntimeIdentifier>win-x64</RuntimeIdentifier>
 	<PublishSingleFile>true</PublishSingleFile>
 	<SelfContained>true</SelfContained>
-	<PublishTrimmed>true</PublishTrimmed>
+	<PublishTrimmed>False</PublishTrimmed>
 	<IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
 	<IncludeAllContentForSelfExtract>true</IncludeAllContentForSelfExtract>
     <ApplicationIcon>icon.ico</ApplicationIcon>
+    <PublishAot>False</PublishAot>
+    <SignAssembly>False</SignAssembly>
+    <ErrorReport>none</ErrorReport>
   </PropertyGroup>
+<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+  <Optimize>True</Optimize>
+</PropertyGroup>
   <ItemGroup>
     <Content Include="icon.ico" />
   </ItemGroup>

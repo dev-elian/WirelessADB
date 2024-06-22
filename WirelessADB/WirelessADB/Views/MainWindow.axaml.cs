@@ -23,7 +23,7 @@ public partial class MainWindow : Window
     }
 
     protected override void OnClosing(WindowClosingEventArgs e)
-    {
+    {        
         vm.SaveSettings();
         base.OnClosing(e);
     }
@@ -49,18 +49,8 @@ public partial class MainWindow : Window
         });
     }
 
-    private void OpenUrl3_Click(object sender, RoutedEventArgs e)
-    {
-        var url = "https://www.youtube.com/@GeekHackENG-dx1gr";
-        Process.Start(new ProcessStartInfo
-        {
-            FileName = url,
-            UseShellExecute = true
-        });
-    }
 
-
-    //Commands should not be here, It seems that binding does not work in self-maintained applications? 
+    //Los comandos no deberian estar aqui pero al compilar como aplicacion self-contained realizando binding a los comandos no funcionan los botones
     private void Button_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
         vm.BrowseCommand.Execute(null);
@@ -74,5 +64,15 @@ public partial class MainWindow : Window
     private void Button_Click_2(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
         vm.DisconnectCommand.Execute(null);
+    }
+
+    private void Button_Click_3(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    {
+        vm.PairDeviceCommand.Execute(null);
+    }
+
+    private void ItemsControl_SizeChanged(object? sender, Avalonia.Controls.SizeChangedEventArgs e)
+    {
+        svCommands.ScrollToEnd();
     }
 }

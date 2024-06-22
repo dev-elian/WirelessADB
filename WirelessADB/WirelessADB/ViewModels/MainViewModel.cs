@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
-using System.Windows.Input;
 using Avalonia.Controls;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -13,24 +11,25 @@ namespace WirelessADB.ViewModels;
 public partial class MainViewModel : ViewModelBase
 {
     public Window Window { get; set; }
-    [ObservableProperty]
-    private string platformToolsPath;
 
     [ObservableProperty]
-    private string ip;
+    private string platformToolsPath = "";
 
     [ObservableProperty]
-    private string port;
+    private string ip = "";
 
     [ObservableProperty]
-    private string resultText;
+    private string port = "";
+
+    [ObservableProperty]
+    private string pairCode = "";
 
     [NotifyPropertyChangedFor(nameof(IsNotConnected))]
     [ObservableProperty]
     private bool isConnected;
     public bool IsNotConnected { get => !IsConnected; }
 
-    public ObservableCollection<string> CommandsExecuted { get; } = new ObservableCollection<string>();
+    public ObservableCollection<string> CommandsHistory { get; } = [];
 
     public MainViewModel()
     {
@@ -56,13 +55,10 @@ public partial class MainViewModel : ViewModelBase
         SaveSettings();
 
         var adbPath = Path.Combine(PlatformToolsPath, "adb");
-        ResultText = "Loading...";
         string command = $"{adbPath} connect {Ip}:{Port}";
-        CommandsExecuted.Add("COMMAND: " + command);
+        CommandsHistory.Add("COMMAND: " + command);
         var result = await ExecuteAdbCommand(command);
-        CommandsExecuted.Add("RESPONSE: " + result);
-
-        ResultText = result;
+        CommandsHistory.Add("RESPONSE: " + result);
 
         if (result.Contains("connected"))
         {
@@ -75,16 +71,27 @@ public partial class MainViewModel : ViewModelBase
     private async Task Disconnect()
     {
         var adbPath = Path.Combine(PlatformToolsPath, "adb");
-        ResultText = "Loading...";
         string command = $"{adbPath} disconnect {Ip}:{Port}";
         var result = await ExecuteAdbCommand(command);
-        CommandsExecuted.Add("COMMAND: " + command);
-        CommandsExecuted.Add("RESPONSE: " + result);
-
-        ResultText = result;
+        CommandsHistory.Add("COMMAND: " + command);
+        CommandsHistory.Add("RESPONSE: " + result);
 
         IsConnected = false;
         CheckConnectionStatus();
+    }
+
+    [RelayCommand]
+    private async Task PairDevice()
+    {
+        if (string.IsNullOrEmpty(PairCode.Trim()))
+        {
+            CommandsHistory.Add("Inserte un código de emparejamiento");
+            return;
+        }
+        var adbPath = Path.Combine(PlatformToolsPath, "adb");
+        CommandsHistory.Add("Code: " + PairCode);
+        var result2 = await ExecuteAdbCommand($"{adbPath} pair {Ip}:{Port} {PairCode}");
+        CommandsHistory.Add("RESPONSE: " + result2);
     }
 
     private void LoadSettings()
@@ -98,12 +105,32 @@ public partial class MainViewModel : ViewModelBase
 
         CheckConnectionStatus();
     }
-
     public void SaveSettings()
     {
         File.WriteAllLines("settings.txt", new[] { PlatformToolsPath, Ip });
     }
 
+    private async void CheckConnectionStatus()
+    {
+        if (string.IsNullOrEmpty(PlatformToolsPath.Trim()) || string.IsNullOrEmpty(Ip.Trim()))
+        {
+            IsConnected = false;
+            CommandsHistory.Add("Verifique la IP y la dirección del SDK");
+            return;
+        }
+        var adbPath = Path.Combine(PlatformToolsPath, "adb");
+        var result = await ExecuteAdbCommand($"{adbPath} devices");
+
+        if (result.Contains(Ip))
+        {
+            Port = result.Split(":")[1].Substring(0,5);
+            IsConnected = true;
+        }
+        else
+        {
+            IsConnected = false;
+        }
+    }
     private async Task<string> ExecuteAdbCommand(string command)
     {
         var process = new Process
@@ -123,23 +150,6 @@ public partial class MainViewModel : ViewModelBase
         process.WaitForExit();
 
         return result;
-    }
-
-    private async void CheckConnectionStatus()
-    {
-        if (string.IsNullOrEmpty(PlatformToolsPath) || string.IsNullOrEmpty(Ip)) return;
-        var adbPath = Path.Combine(PlatformToolsPath, "adb");
-        var result = await ExecuteAdbCommand($"{adbPath} devices");
-
-        if (result.Contains(Ip))
-        {
-            Port = result.Split(":")[1].Substring(0,5);
-            IsConnected = true;
-        }
-        else
-        {
-            IsConnected = false;
-        }
     }
 }
 
