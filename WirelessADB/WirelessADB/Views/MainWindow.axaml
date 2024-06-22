@@ -1,0 +1,65 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:WirelessADB.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="700" d:DesignHeight="350"
+		Width="700" Height="350"
+        x:Class="WirelessADB.Views.MainWindow"
+        Icon="/Assets/avalonia-logo.ico" Background="#121212"
+        Title="WirelessADB">
+	<Window.DataContext>
+		<vm:MainViewModel />
+	</Window.DataContext>
+	<StackPanel Margin="10">
+		<StackPanel Orientation="Horizontal"
+                    Spacing="10"
+                    VerticalAlignment="Center">
+			<Button Content="Search platform-tools"
+                    Command="{Binding BrowseCommand}"
+                    Margin="0,0,0,10"/>
+			<TextBlock Text="{Binding PlatformToolsPath}" VerticalAlignment="Center"/>
+		</StackPanel>
+		<StackPanel Orientation="Horizontal" Spacing="10">
+			<TextBox Watermark="IP Address"
+					 Text="{Binding Ip}"
+					 Margin="0,0,0,10"/>
+			<TextBox Watermark="Port"
+					 Text="{Binding Port}"
+					 Margin="0,0,0,10"/>
+			<Button Content="Connect" Foreground="White"
+					Command="{Binding ConnectCommand}"
+					IsVisible="{Binding IsNotConnected}"
+					Margin="0,0,0,10"/>
+			<Button Content="Disconnect" Foreground="White"
+					Command="{Binding DisconnectCommand}"
+					IsVisible="{Binding IsConnected}"
+					Margin="0,0,0,10"/>
+		</StackPanel>
+		<TextBlock Text="{Binding ResultText}" Margin="0,0,0,10"/>
+		<Grid Height="200">
+			<Rectangle Fill="#000022" Stroke="White" StrokeThickness="3"
+					   Height="200"
+					   RadiusX="10" RadiusY="10"/>
+			<ScrollViewer Margin="10"  Height="180" VerticalScrollBarVisibility="Visible">
+				<ItemsControl ItemsSource="{Binding CommandsExecuted}" 
+							  Margin="0,15" Padding="10">
+					<ItemsControl.ItemTemplate>
+						<DataTemplate>
+							<TextBlock Text="{Binding}" 
+									   FontWeight="Bold"
+									   Foreground="Green" />
+						</DataTemplate>
+					</ItemsControl.ItemTemplate>
+				</ItemsControl>
+			</ScrollViewer>
+		</Grid>
+		<StackPanel Margin="10" Spacing="10" 
+					HorizontalAlignment="Center"
+					Orientation="Horizontal">
+			<Button Content="YouTube" Background="Red"
+					Click="OpenUrl_Click" Margin="0,0,0,10"/>
+			<Button Content="GitHub" Click="OpenUrl2_Click" Margin="0,0,0,10"/>
+		</StackPanel>
+	</StackPanel>
+</Window>
